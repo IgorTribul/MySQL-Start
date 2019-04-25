@@ -1,0 +1,65 @@
+Тема 1. Задание 1:
+
+[mysql]
+user=root
+password=master
+
+Тема 1. Задание 2:
+
+CREATE DATABASE examples;
+USE examples;
+CREATE TABLE users (
+    id INT UNSIGNED,
+    name VARCHAR(255) DEFAULT "anonym");
+
+Тема 1. Задание 3:
+
+[client]
+user=root
+password=master
+
+
+~$ mysqldump examples > new_table
+~$ mysql amples < new_table
+
+Тема 1. Задание 4:
+
+~$ mysqldump mysql help_keyword --where="true limit 100" > new_keyword
+~$ mysql amples < new_keyword
+
+Тема 2. Задание 1:
+
+ ALTER TABLE catalogs.shop CHANGE name name VARCHAR(100) DEFAULT ‘empty’;
+    или
+UPDATE catalogs.shop SET name='empty' WHERE name IS NULL;
+Уникальность в name сохранить не получится
+
+Тема 2. Задание 2:
+
+DROP TABLE IF EXISTS catalogs;
+CREATE TABLE catalogs (
+id SERIAL PRIMARY KEY,
+name VARCHAR (255) comment 'Название раздела'
+) comment = 'Разделы хранилища медиа-файлов';
+
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+id SERIAL PRIMARY KEY,
+name VARCHAR (255) comment 'Имя пользователя'
+) comment = 'Пользователи';
+
+DROP TABLE IF EXISTS files;
+CREATE TABLE files (
+id SERIAL PRIMARY KEY,
+name VARCHAR (255) comment 'Имя файла',
+discription TEXT comment 'Описание типа файла',
+file_path VARCHAR (255) comment 'Путь к файлу',
+users_id INT UNSIGNED,
+catalogs_id INT UNSIGNED,
+KEY index_of_users_id(users_id),
+KEY index_of_catalogs_id(catalogs_id)
+) comment = 'Хранимые файлы';
+
+Тема 2. Задание 3:
+
+INSERT INTO sample.cat SELECT*FROM shop.catalogs ON DUPLICATE KEY UPDATE sample.cat.name=shop.catalogs.name;
